@@ -19,3 +19,13 @@
 
 1. 使用vscode后C++代码报错（其实代码是没问题的，只是vscode找不到头文件而异）：检测到#include错误，请更新includePath。修正方法是：快速修复 -> 编辑includePath设置 -> 在包含路径中添加/opt/ros/humble/include/**即可。
 
+## [ROS2的文件系统](https://zhuanlan.zhihu.com/p/655747465)
+
+不推荐前面的直接实例化的Node对象，推荐使用继承的方式来创建节点对象，因为继承方式可以在一个进程内组织多个节点
+
+[在一个进程内组织多个节点](https://fishros.org/doc/ros2/humble/Tutorials/Intermediate/Composition.html)
+
+
+
+
+
