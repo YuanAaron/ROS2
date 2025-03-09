@@ -115,6 +115,8 @@ ros2 pkg create py01_topic --build-type ament_python --dependencies rclpy std_ms
 
 验证发布方是否将话题数据发送出去：ros2 topic echo /topic，其中topic为话题名称。
 
+这一节还涉及到自定义接口消息，验证方式为：ros2 interface show base_interfaces/msg/Student
+
 
 #### 服务通信
 
