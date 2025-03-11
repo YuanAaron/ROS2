@@ -117,6 +117,10 @@ ros2 pkg create py01_topic --build-type ament_python --dependencies rclpy std_ms
 
 这一节还涉及到自定义接口消息，验证方式为：ros2 interface show base_interfaces/msg/Student
 
+C++代码需要配置VSCode的c_cpp_properties.json文件，在includePath属性下添加一行："${workspaceFolder}/install/base_interfaces_demo/include/**"，添加完毕后，包含相关头文件时，就不会抛出异常了。
+
+Python代码配置VSCode中settings.json文件，在python.autoComplete.extraPaths和python.analysis.extraPaths属性下添加一行："${workspaceFolder}/install/base_interfaces_demo/local/lib/python3.10/dist-packages"，添加完毕后，代码可以高亮显示且可以自动补齐
+
 
 #### 服务通信
 

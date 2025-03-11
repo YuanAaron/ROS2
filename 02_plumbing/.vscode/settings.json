@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "functional": "cpp"
+    },
+
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/install/base_interfaces/local/lib/python3.10/dist-packages"
+    ],
+
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/install/base_interfaces/local/lib/python3.10/dist-packages"
+    ]
+
+}
