@@ -31,7 +31,25 @@ ament_target_dependencies(
   "base_interfaces"
 )
 
-install(TARGETS demo01_talker_str_cpp demo02_listener_str_cpp
+add_executable(demo03_talker_stu_cpp src/demo03_talker_stu_cpp.cpp)
+ament_target_dependencies(
+  demo03_talker_stu_cpp
+  "rclcpp"
+  "std_msgs"
+  "base_interfaces"
+)
+
+add_executable(demo04_listener_stu_cpp src/demo04_listener_stu_cpp.cpp)
+ament_target_dependencies(
+  demo04_listener_stu_cpp
+  "rclcpp"
+  "std_msgs"
+  "base_interfaces"
+)
+
+install(TARGETS 
+        demo01_talker_str_cpp demo02_listener_str_cpp 
+        demo03_talker_stu_cpp demo04_listener_stu_cpp
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
