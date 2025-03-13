@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 {
   rclcpp::init(argc, argv);
   auto node = std::make_shared<Talker>();
-  //不断地循环检查被其运行的节点是否收到新的话题数据等事件，直到该节点被关闭为止
+  //不断地循环检查被其运行的节点是否收到新的话题数据等事件（回调函数），直到该节点被关闭为止
   //如果这里没有spin函数，回调函数timer_callback不会被执行
   rclcpp::spin(node);
   rclcpp::shutdown();

@@ -105,7 +105,7 @@ ROS-Industrial
 ### 通信模型
 #### 话题通信
 
-一种单向通信模型，发布方发布数据，订阅方订阅数据，数据流单向的由发布方传输到订阅方。
+一种单向通信模型，发布方发布数据，订阅方订阅数据，数据流单向的由发布方传输到订阅方。一般应用于不断更新的、少逻辑处理的数据传输场景。
 
 话题通信的发布方和订阅方是一种多对多的关系。
 
@@ -115,16 +115,24 @@ ros2 pkg create py01_topic --build-type ament_python --dependencies rclpy std_ms
 
 验证发布方是否将话题数据发送出去：ros2 topic echo /topic，其中topic为话题名称。
 
-这一节还涉及到自定义接口消息，验证方式为：ros2 interface show base_interfaces/msg/Student
+这一节还涉及到自定义接口消息（文件名首字母必须大写），验证方式为：ros2 interface show base_interfaces/msg/Student
 
 C++代码需要配置VSCode的c_cpp_properties.json文件，在includePath属性下添加一行："${workspaceFolder}/install/base_interfaces_demo/include/**"，添加完毕后，包含相关头文件时，就不会抛出异常了。
 
-Python代码配置VSCode中settings.json文件，在python.autoComplete.extraPaths和python.analysis.extraPaths属性下添加一行："${workspaceFolder}/install/base_interfaces_demo/local/lib/python3.10/dist-packages"，添加完毕后，代码可以高亮显示且可以自动补齐
+Python代码配置VSCode中settings.json文件，在python.autoComplete.extraPaths和python.analysis.extraPaths属性下添加一行："${workspaceFolder}/install/base_interfaces_demo/local/lib/python3.10/dist-packages"，添加完毕后，代码可以高亮显示且可以自动补齐.
+
+rqt查看话题通信的计算图：Plugins -> Introspection -> Node Graph，这可以验证发布方和订阅方是一种多对多的关系。
 
 
 #### 服务通信
 
-一种基于请求响应的通信模型，在通信双方中，客户端发送请求数据到服务端，服务端响应结果给客户端。
+一种基于请求响应的通信模型，在通信双方中，客户端发送请求数据到服务端，服务端响应结果给客户端。适用于偶然的、对实时性有要求、有一定逻辑处理需求的数据传输场景。
+
+服务通信的服务端和客户端是一对多的关系。
+
+验证服务端代码：ros2 service call /add_ints base_interfaces/srv/AddInts "{'num1': 10, 'num2': 20}"，其中add_ints为服务话题名称，base_interfaces/srv/AddInts为服务接口消息类型，最后是json格式的请求数据。
+
+
 
 #### 动作通信
 

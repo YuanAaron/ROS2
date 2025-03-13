@@ -12,7 +12,7 @@ class TalkerStu(Node):
     
     def timer_callback(self):
         stu = Student()
-        stu.name = "zhangsan"
+        stu.name = "lisi"
         stu.age = self._count
         stu.height = 1.75
         self._count += 1

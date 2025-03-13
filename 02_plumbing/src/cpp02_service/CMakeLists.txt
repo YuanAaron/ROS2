@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(base_interfaces)
+project(cpp02_service)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,16 +7,29 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(base_interfaces REQUIRED)
 
-#为接口文件生成源码
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Student.msg"
-  "srv/AddInts.srv"
+add_executable(demo01_client_cpp src/demo01_client_cpp.cpp)
+target_include_directories(demo01_client_cpp PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(demo01_client_cpp PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+ament_target_dependencies(
+  demo01_client_cpp
+  "rclcpp"
+  "base_interfaces"
 )
+
+add_executable(demo02_server_cpp src/demo02_server_cpp.cpp)
+ament_target_dependencies(
+  demo02_server_cpp
+  "rclcpp"
+  "base_interfaces"
+)
+
+install(TARGETS demo01_client_cpp demo02_server_cpp
+  DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
