@@ -85,8 +85,8 @@ int main(int argc, char** argv)
   }
 
   rclcpp::init(argc, argv);
-
   auto client = std::make_shared<Client>();
+  
   bool flag = client -> connect_server();
   if(!flag)
   {
@@ -94,11 +94,12 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  auto res = client -> send_request(atoi(argv[1]), atoi(argv[2]));
+  auto future = client -> send_request(atoi(argv[1]), atoi(argv[2]));
   //处理响应结果
-  if(rclcpp::spin_until_future_complete(client, res) == rclcpp::FutureReturnCode::SUCCESS) //除了SUCCESS，还有INTERRUPTED和TIMEOUT
+  if(rclcpp::spin_until_future_complete(client, future) == rclcpp::FutureReturnCode::SUCCESS) //除了SUCCESS，还有INTERRUPTED和TIMEOUT
   {
-    RCLCPP_INFO(client -> get_logger(), "请求正常处理，响应结果为：%d", res.get() -> sum);
+    auto res = future.get();
+    RCLCPP_INFO(client -> get_logger(), "请求正常处理，响应结果为：%d", res -> sum);
   } else {
     RCLCPP_INFO(client -> get_logger(), "请求异常！");
   }
