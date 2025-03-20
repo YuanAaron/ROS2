@@ -46,7 +46,7 @@ public:
         // 3. wait_for_service(1s)的超时机制失效：该函数依赖于 ROS2 内部的定时器和线程来实现 1s 的超时等待。当 rclcpp::shutdown() 被调用后，定时器和相关线程可能已经被清理或停止工作，
         //       导致该函数无法正常进行超时等待，立即返回 false，while 循环就会快速地不断执行，从而导致 “尝试连接...” 信息被疯狂输出。
 
-        if(!rclcpp::ok()) //该函数在该客户端正常正常执行时返回true，当非正常执行时（比如按下了ctrl+c）返回false。
+        if(!rclcpp::ok()) //该函数在该客户端正常执行时返回true，当非正常执行时（比如按下了ctrl+c）返回false。
         {
           //如果这里使用this -> get_logger()，当按下ctrl+c时，可能会有bug：偶然性地抛出context相关的异常。
           //原因：按下ctrl+c表示结束ros2程序，释放资源（比如关闭context），而this->get_logger() 返回的日志记录器是与特定节点相关联的，节点又是在 rclcpp::Context 的管理下

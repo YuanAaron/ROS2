@@ -109,9 +109,9 @@ ROS-Industrial
 
 话题通信的发布方和订阅方是一种多对多的关系。
 
-ros2 pkg create cpp01_topic --build-type ament_cmake --dependencies rclcpp std_msgs base_interfaces --node_name demo01_talker_str_cpp
+ros2 pkg create cpp01_topic --build-type ament_cmake --dependencies rclcpp std_msgs base_interfaces --node-name demo01_talker_str_cpp
 
-ros2 pkg create py01_topic --build-type ament_python --dependencies rclpy std_msgs base_interfaces --node_name demo01_talker_str_py
+ros2 pkg create py01_topic --build-type ament_python --dependencies rclpy std_msgs base_interfaces --node-name demo01_talker_str_py
 
 验证发布方是否将话题数据发送出去：ros2 topic echo /topic，其中topic为话题名称。
 
@@ -132,11 +132,15 @@ rqt查看话题通信的计算图：Plugins -> Introspection -> Node Graph，这
 
 验证服务端代码：ros2 service call /add_ints base_interfaces/srv/AddInts "{'num1': 10, 'num2': 20}"，其中add_ints为服务话题名称，base_interfaces/srv/AddInts为服务接口消息类型，最后是json格式的请求数据。
 
-
-
 #### 动作通信
 
-一种带有连续反馈的通信模型，在通信双方中，客户端发送请求数据到服务端，服务端响应结果给客户端，但是在服务端接收到请求到产生最终响应的过程中，会发送连续的反馈信息到客户端。
+一种带有连续反馈的通信模型，在通信双方中，客户端发送请求数据到服务端，服务端响应结果给客户端，但是在服务端接收到请求到产生最终响应的过程中，会发送连续的反馈信息到客户端。适用于耗时的请求响应场景，用以获取连续的状态反馈。
+
+1. 从结构角度看，动作通信由目标、反馈、结果三部分组成；
+2. 就功能而言，动作通信类似于服务通信，客户端发送请求到服务端，并接收服务端响应的最终结果，但动作通信可以在请求响应过程中获取连续反馈，且也可以向服务端发送任务取消请求；
+3. 就地层实现而言，动作通信是建立在话题通信和服务通信之上的，目标发送实现是对服务通信的封装，结果的获取也是对服务通信的封装，而连续反馈是对话题通信的封装。
+
+验证服务端代码：ros2 action send_goal /action_sum base_interfaces/action/Progress -f "{'num': 10}"
 
 #### 参数通信（基于服务通信）
 
