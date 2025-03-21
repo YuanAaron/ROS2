@@ -142,6 +142,12 @@ rqt查看话题通信的计算图：Plugins -> Introspection -> Node Graph，这
 
 验证服务端代码：ros2 action send_goal /action_sum base_interfaces/action/Progress -f "{'num': 10}"
 
+python代码的技巧：当python代码没有代码提示时，该怎么办？
+self.get_logger().info(str(type(goal_handle))) #或 goal_handle.__str__()，后者不如前者
+方法一：从输出的结果<class 'rclpy.action.client.ClientGoalHandle'>去查看其源码，就可以知道该类有哪些属性和方法；
+方法二：将输出结果<class 'rclpy.action.client.ClientGoalHandle'>导入进来，然后显式声明goal_handle的类型，即goal_handle:ClientGoalHandle = future.result()，这样后面使用goal_handle时就有属性和方法的提示了
+        
+
 #### 参数通信（基于服务通信）
 
 一种基于数共享的通信模型，在通信双方中，服务端可以设置数据，而客户端可以连接服务端并操作服务端数据。
